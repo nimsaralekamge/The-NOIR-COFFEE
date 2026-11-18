@@ -11,7 +11,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: Color(0xFF221F1E),
+    systemNavigationBarColor: Color(0xFF14110E),
     systemNavigationBarIconBrightness: Brightness.light,
   ));
   runApp(const NoirApp());
@@ -21,31 +21,31 @@ void main() {
 double kS = 1;
 double s(double v) => v * kS;
 
-// ================= DESIGN TOKENS =================
+// ================= EXACT DESIGN TOKENS =================
 class C {
-  static const bg = Color(0xFF221F1E);
-  static const surface = Color(0xFF2D2C2A);
-  static const surfaceHi = Color(0xFF3A3736);
-  static const border = Color(0xFF393937);
+  static const bg = Color(0xFF14110E);
+  static const surface = Color(0xFF221C17);
+  static const surfaceHi = Color(0xFF2E2620);
+  static const border = Color(0xFF382F28);
   static const gold = Color(0xFF8D6D3D);
-  static const goldLight = Color(0xFFB39463);
-  static const cream = Color(0xFFFDFCE8);
-  static const text = Color(0xFFF6F1EA);
-  static const muted = Color(0xFF8E8A85);
-  static const cardTop = Color(0xFF2B2018);
-  static const cardBottom = Color(0xFF3A2C1E);
-  static const cardBorder = Color(0xFF46372A);
+  static const goldLight = Color(0xFFC7A87A);
+  static const cream = Color(0xFFFBFBF5);
+  static const text = Color(0xFFF5F2EC);
+  static const muted = Color(0xFF8A8278);
+  static const cardTop = Color(0xFF271F1A);
+  static const cardBottom = Color(0xFF1E1713);
+  static const cardBorder = Color(0xFF3A2E26);
   static const star = Color(0xFFE2B15F);
 }
 
-TextStyle serif(double size, {Color color = C.text, double height = 1.19}) =>
+TextStyle serif(double size, {Color color = C.text, double height = 1.15}) =>
     GoogleFonts.playfairDisplay(
         fontSize: size * kS, color: color, height: height);
 
 TextStyle sans(double size,
         {Color color = C.text,
         FontWeight weight = FontWeight.w400,
-        double height = 1.25,
+        double height = 1.2,
         double spacing = 0}) =>
     GoogleFonts.roboto(
         fontSize: size * kS,
@@ -68,14 +68,14 @@ class Drink {
 const drinks = [
   Drink(
       'Smoked\nEspresso',
-      3.00,
-      4.5,
+      2.00,
+      4.6,
       'assets/images/espresso.jpg',
       'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900',
       'A bold double shot, slow-roasted over oak embers for a deep, smoky finish with a thick golden crema.'),
   Drink(
       'Charcoal\nMocha',
-      2.00,
+      1.00,
       4.5,
       'assets/images/mocha.jpg',
       'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=900',
@@ -92,9 +92,9 @@ const drinks = [
 const categories = ['Signature', 'Cold Brew', 'Slow Drip', 'Dark Roast'];
 const chipFills = [
   Color(0xFF6E5640),
-  Color(0xFF3C3027),
-  Color(0xFF38321F),
-  Color(0xFF352920),
+  Color(0xFF382F28),
+  Color(0xFF352B22),
+  Color(0xFF31271E),
 ];
 const sizeExtra = {'S': 0.0, 'M': 0.5, 'L': 1.0};
 
@@ -206,14 +206,14 @@ class RoundIconButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 42,
-        height: 42,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.45),
+          color: Colors.black.withOpacity(0.4),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: C.border),
         ),
-        child: Icon(icon, size: 20, color: C.text),
+        child: Icon(icon, size: 19, color: C.text),
       ),
     );
   }
@@ -231,14 +231,14 @@ class QtyStepper extends StatelessWidget {
   Widget _btn(IconData i, VoidCallback f) => GestureDetector(
         onTap: f,
         child: Container(
-          width: 30,
-          height: 30,
+          width: 28,
+          height: 28,
           decoration: BoxDecoration(
             color: C.surfaceHi,
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(color: C.border),
           ),
-          child: Icon(i, size: 16, color: C.goldLight),
+          child: Icon(i, size: 15, color: C.goldLight),
         ),
       );
 
@@ -249,10 +249,10 @@ class QtyStepper extends StatelessWidget {
       children: [
         _btn(Icons.remove, onMinus),
         SizedBox(
-          width: 34,
+          width: 30,
           child: Text('$qty',
               textAlign: TextAlign.center,
-              style: sans(15, weight: FontWeight.w600)),
+              style: sans(14, weight: FontWeight.w600)),
         ),
         _btn(Icons.add, onPlus),
       ],
@@ -271,8 +271,8 @@ class GoldButton extends StatelessWidget {
       required this.onTap,
       this.width,
       this.height,
-      this.radius = 8,
-      this.fontSize = 15});
+      this.radius = 10,
+      this.fontSize = 14});
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +282,7 @@ class GoldButton extends StatelessWidget {
         width: width,
         height: height,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: width == null ? 22 : 0),
+        padding: EdgeInsets.symmetric(horizontal: width == null ? 18 : 0),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.centerLeft,
@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pad = s(18);
+    final pad = s(16);
     return Scaffold(
       backgroundColor: C.bg,
       body: Stack(
@@ -331,34 +331,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SafeArea(
             child: ListView(
-              padding: EdgeInsets.only(top: s(14), bottom: s(24)),
+              padding: EdgeInsets.only(top: s(12), bottom: s(24)),
               children: [
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: pad),
                     child: _header()),
-                SizedBox(height: s(26)),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: pad),
-                  child: Text('Find Your\nDark Roast',
-                      style: serif(35.3,
-                          color: const Color(0xFFFBFBF5), height: 1.19)),
-                ),
-                SizedBox(height: s(18)),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: pad),
-                    child: _searchRow()),
-                SizedBox(height: s(23)),
-                _drinkList(pad),
                 SizedBox(height: s(22)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: pad),
-                  child: Text('Categories',
-                      style: serif(23.4,
-                          color: const Color(0xFFFEFEFD), height: 1.2)),
+                  child: Text('Select Your\nMidnight Brew',
+                      style: serif(33,
+                          color: const Color(0xFFFBFBF5), height: 1.15)),
                 ),
-                SizedBox(height: s(11)),
+                SizedBox(height: s(16)),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: pad),
+                    child: _searchRow()),
+                SizedBox(height: s(20)),
+                _drinkList(pad),
+                SizedBox(height: s(20)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: pad),
+                  child: Text('Categories',
+                      style: serif(22,
+                          color: const Color(0xFFFEFEFD), height: 1.15)),
+                ),
+                SizedBox(height: s(10)),
                 _categoryChips(pad),
-                SizedBox(height: s(24)),
+                SizedBox(height: s(22)),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: pad),
                     child: _dailyRitual()),
@@ -377,19 +377,20 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('NOIR',
                 style: GoogleFonts.playfairDisplay(
-                    fontSize: s(30),
+                    fontSize: s(28),
                     letterSpacing: s(2),
                     color: const Color(0xFF9C8460),
                     height: 1.05)),
-            SizedBox(height: s(2)),
+            SizedBox(height: s(1)),
             Text('COFFEE',
-                style: sans(10.5,
+                style: sans(10,
                     color: const Color(0xFF8F8372),
-                    spacing: s(4),
-                    height: 1.1)),
+                    spacing: s(3.5),
+                    height: 1.0)),
           ],
         ),
         const Spacer(),
@@ -401,21 +402,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _profileButton() => Container(
-        width: s(48),
-        height: s(46),
+        height: s(42),
+        padding: EdgeInsets.symmetric(horizontal: s(12)),
         decoration: BoxDecoration(
           color: C.surfaceHi,
-          borderRadius: BorderRadius.circular(s(10)),
+          borderRadius: BorderRadius.circular(s(12)),
           border: Border.all(color: const Color(0xFF4A4644)),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(Icons.person_outline,
-                size: s(21), color: const Color(0xFFC7C0B4)),
+                size: s(19), color: const Color(0xFFC7C0B4)),
+            SizedBox(width: s(6)),
             Text('Profile',
-                style:
-                    sans(11.5, color: const Color(0xFFC7C0B4), height: 1.1)),
+                style: sans(12,
+                    color: const Color(0xFFC7C0B4),
+                    weight: FontWeight.w500)),
           ],
         ),
       );
@@ -428,30 +431,30 @@ class _HomeScreenState extends State<HomeScreen> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                width: s(46),
-                height: s(46),
+                width: s(42),
+                height: s(42),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [Color(0xFF9C7945), Color(0xFF65492B)],
                   ),
-                  borderRadius: BorderRadius.circular(s(10)),
+                  borderRadius: BorderRadius.circular(s(12)),
                   border: Border.all(color: const Color(0x55D9B87A)),
                 ),
                 child: Icon(Icons.shopping_cart_outlined,
-                    size: s(24), color: const Color(0xFFECE4CF)),
+                    size: s(22), color: const Color(0xFFECE4CF)),
               ),
               if (cart.count > 0)
                 Positioned(
-                  right: -s(5),
-                  top: -s(5),
+                  right: -s(4),
+                  top: -s(4),
                   child: CircleAvatar(
                     radius: s(9),
                     backgroundColor: C.text,
                     child: Text('${cart.count}',
                         style: sans(10,
-                            color: C.bg, weight: FontWeight.w600, height: 1)),
+                            color: C.bg, weight: FontWeight.w700, height: 1)),
                   ),
                 ),
             ],
@@ -465,33 +468,42 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Expanded(
           child: Container(
-            height: s(44),
-            padding: EdgeInsets.symmetric(horizontal: s(13)),
+            height: s(42),
+            padding: EdgeInsets.symmetric(horizontal: s(12)),
             decoration: BoxDecoration(
               color: C.surface,
-              borderRadius: BorderRadius.circular(s(10)),
+              borderRadius: BorderRadius.circular(s(12)),
               border: Border.all(color: C.border),
             ),
             child: Row(
               children: [
-                Icon(Icons.search, size: s(21), color: const Color(0xFF9A958F)),
+                Icon(Icons.search, size: s(20), color: const Color(0xFF9A958F)),
                 SizedBox(width: s(10)),
                 Text('Search for your craving...',
-                    style: sans(15.5, color: const Color(0xFF8E8A85))),
+                    style: sans(14, color: const Color(0xFF8E8A85))),
               ],
             ),
           ),
         ),
-        SizedBox(width: s(11)),
+        SizedBox(width: s(10)),
         Container(
-          width: s(44),
-          height: s(44),
+          width: s(42),
+          height: s(42),
           decoration: BoxDecoration(
             color: C.surface,
-            borderRadius: BorderRadius.circular(s(10)),
+            borderRadius: BorderRadius.circular(s(12)),
             border: Border.all(color: C.border),
           ),
-          child: Icon(Icons.tune, size: s(21), color: const Color(0xFFC9B28F)),
+          child: Center(
+            // Exact custom filter/tuning icon matching the reference mockup
+            child: SizedBox(
+              width: s(16),
+              height: s(14),
+              child: CustomPaint(
+                painter: _CustomFilterPainter(),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -500,12 +512,12 @@ class _HomeScreenState extends State<HomeScreen> {
   // ---------- drink cards ----------
   Widget _drinkList(double pad) {
     return SizedBox(
-      height: s(275),
+      height: s(235), // Compact height removing extra empty space
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: pad),
         itemCount: drinks.length,
-        separatorBuilder: (_, __) => SizedBox(width: s(13)),
+        separatorBuilder: (_, __) => SizedBox(width: s(12)),
         itemBuilder: (_, i) => _drinkCard(drinks[i]),
       ),
     );
@@ -516,23 +528,23 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => Navigator.push(
           context, MaterialPageRoute(builder: (_) => DetailPage(drink: d))),
       child: Container(
-        width: s(130),
+        width: s(128),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [C.cardTop, C.cardBottom],
           ),
-          borderRadius: BorderRadius.circular(s(11)),
+          borderRadius: BorderRadius.circular(s(16)),
           border: Border.all(color: C.cardBorder),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(s(10)),
+          borderRadius: BorderRadius.circular(s(16)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: s(133),
+                height: s(120),
                 width: double.infinity,
                 child: Stack(
                   fit: StackFit.expand,
@@ -540,21 +552,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     Hero(tag: 'drink-${d.name}', child: DrinkImage(drink: d)),
                     Positioned(
                       top: s(6),
-                      right: s(5),
+                      right: s(6),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: s(6), vertical: s(3)),
+                            horizontal: s(5), vertical: s(2)),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.42),
+                          color: Colors.black.withOpacity(0.45),
                           borderRadius: BorderRadius.circular(s(8)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.star, size: s(11), color: C.star),
-                            SizedBox(width: s(3)),
+                            Icon(Icons.star, size: s(10), color: C.star),
+                            SizedBox(width: s(2)),
                             Text('${d.rating}',
-                                style: sans(11.5,
+                                style: sans(11,
                                     color: const Color(0xFFEDE4DA),
                                     height: 1.1)),
                           ],
@@ -566,32 +578,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(s(8), s(9), s(7), s(7)),
+                  padding: EdgeInsets.fromLTRB(s(8), s(6), s(8), s(8)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         d.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: sans(15.5,
+                        style: sans(14,
                             color: const Color(0xFFFCFBF7),
                             weight: FontWeight.w500,
-                            height: 1.25),
+                            height: 1.18),
                       ),
-                      const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: s(4)),
-                            child: Text(money(d.price),
-                                style: sans(15.5,
-                                    color: C.goldLight,
-                                    weight: FontWeight.w500,
-                                    height: 1)),
-                          ),
+                          Text(money(d.price),
+                              style: sans(14,
+                                  color: C.goldLight,
+                                  weight: FontWeight.w600,
+                                  height: 1)),
                           GestureDetector(
                             onTap: () {
                               cart.add(d, 'M', 1);
@@ -605,8 +614,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ));
                             },
                             child: Container(
-                              width: s(28),
-                              height: s(28),
+                              width: s(26),
+                              height: s(26),
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   begin: Alignment.topLeft,
@@ -621,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Border.all(color: const Color(0x55D9B87A)),
                               ),
                               child: Icon(Icons.add,
-                                  size: s(20), color: const Color(0xFFF3EDD8)),
+                                  size: s(18), color: const Color(0xFFF3EDD8)),
                             ),
                           ),
                         ],
@@ -662,7 +671,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         : const Color(0xFF5C4C36)),
               ),
               child: Text(categories[i],
-                  style: sans(14.5,
+                  style: sans(14,
                       color: const Color(0xFFEAE5DB), height: 1.1)),
             ),
           );
@@ -674,7 +683,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ---------- Daily Ritual banner ----------
   Widget _dailyRitual() {
     return Container(
-      height: s(193.5),
+      height: s(185),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: const Color(0xFF14110E),
@@ -686,30 +695,30 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Image.asset('assets/images/ritual.jpg', fit: BoxFit.fill),
           Positioned(
-            left: s(18.5),
-            top: s(19),
+            left: s(18),
+            top: s(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Daily Ritual',
-                    style: serif(27.7,
+                    style: serif(26,
                         color: const Color(0xFFFBFBF5), height: 1.2)),
-                SizedBox(height: s(7)),
-                Text('Craft of the Day\nespresso over ice',
-                    style: serif(21,
-                        color: const Color(0xFFF5F5F2), height: 1.19)),
+                SizedBox(height: s(6)),
+                Text('A velvety\nespresso over Ice',
+                    style: serif(20,
+                        color: const Color(0xFFF5F5F2), height: 1.18)),
               ],
             ),
           ),
           Positioned(
-            left: s(18.5),
-            bottom: s(27),
+            left: s(18),
+            bottom: s(22),
             child: GoldButton(
               label: 'Order Now',
-              width: s(112),
-              height: s(35.5),
+              width: s(110),
+              height: s(34),
               radius: s(7),
-              fontSize: 15 * kS,
+              fontSize: 14 * kS,
               onTap: () {
                 cart.add(drinks[2], 'M', 1);
                 openCart(context);
@@ -720,6 +729,32 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+// Custom Painter to draw the exact 3-line slider/tuning icon from the design
+class _CustomFilterPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFFC9B28F)
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
+
+    // Top horizontal bar with left knob
+    canvas.drawLine(Offset(0, size.height * 0.2), Offset(size.width, size.height * 0.2), paint);
+    canvas.drawCircle(Offset(size.width * 0.3, size.height * 0.2), 2.5, Paint()..color = const Color(0xFFC9B28F));
+
+    // Middle horizontal bar with right knob
+    canvas.drawLine(Offset(0, size.height * 0.5), Offset(size.width, size.height * 0.5), paint);
+    canvas.drawCircle(Offset(size.width * 0.7, size.height * 0.5), 2.5, Paint()..color = const Color(0xFFC9B28F));
+
+    // Bottom horizontal bar with center knob
+    canvas.drawLine(Offset(0, size.height * 0.8), Offset(size.width, size.height * 0.8), paint);
+    canvas.drawCircle(Offset(size.width * 0.4, size.height * 0.8), 2.5, Paint()..color = const Color(0xFFC9B28F));
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 // ================= DRINK DETAIL =================
