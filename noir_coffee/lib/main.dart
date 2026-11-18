@@ -68,14 +68,14 @@ class Drink {
 const drinks = [
   Drink(
       'Smoked\nEspresso',
-      2.00,
-      4.6,
+      3.00,
+      4.5,
       'assets/images/espresso.jpg',
       'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900',
       'A bold double shot, slow-roasted over oak embers for a deep, smoky finish with a thick golden crema.'),
   Drink(
       'Charcoal\nMocha',
-      1.00,
+      2.00,
       4.5,
       'assets/images/mocha.jpg',
       'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=900',
@@ -326,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: s(160),
             height: s(214),
             child: IgnorePointer(
-              child: Image.asset('assets/images/ring.png', fit: BoxFit.fill),
+              child: Image.asset('assets/images/ring.jpg', fit: BoxFit.fill),
             ),
           ),
           SafeArea(
@@ -339,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: s(26)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: pad),
-                  child: Text('Select Your\nMidnight Brew',
+                  child: Text('Find Your\nDark Roast',
                       style: serif(35.3,
                           color: const Color(0xFFFBFBF5), height: 1.19)),
                 ),
@@ -695,7 +695,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: serif(27.7,
                         color: const Color(0xFFFBFBF5), height: 1.2)),
                 SizedBox(height: s(7)),
-                Text('A velvety\nespresso over Ice',
+                Text('Craft of the Day\nespresso over ice',
                     style: serif(21,
                         color: const Color(0xFFF5F5F2), height: 1.19)),
               ],
