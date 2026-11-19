@@ -1,41 +1,48 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ================= SCALING (390 x 844 design canvas) =================
+double kS = 1;
+double s(double v) => v * kS;
+
+double fitScale(Size size) =>
+    math.min(size.width / 390, size.height / 844).clamp(0.75, 1.4).toDouble();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final view = WidgetsBinding.instance.platformDispatcher.views.first;
-  kS = (view.physicalSize.width / view.devicePixelRatio / 386)
-      .clamp(0.8, 1.4)
-      .toDouble();
+  kS = fitScale(view.physicalSize / view.devicePixelRatio);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: Color(0xFF14110E),
+    systemNavigationBarColor: Color(0xFF1B1714),
     systemNavigationBarIconBrightness: Brightness.light,
   ));
   runApp(const NoirApp());
 }
 
-// ================= SCALING =================
-double kS = 1;
-double s(double v) => v * kS;
-
-// ================= EXACT DESIGN TOKENS =================
+// ================= COLORS (sampled from the reference mockup) =================
 class C {
-  static const bg = Color(0xFF14110E);
-  static const surface = Color(0xFF221C17);
-  static const surfaceHi = Color(0xFF2E2620);
-  static const border = Color(0xFF382F28);
-  static const gold = Color(0xFF8D6D3D);
-  static const goldLight = Color(0xFFC7A87A);
+  static const bg = Color(0xFF1B1714);
+  static const surface = Color(0xFF2C2A29); // search bar fill
+  static const surfaceHi = Color(0xFF2E2826);
+  static const filterFill = Color(0xFF272423);
+  static const border = Color(0xFF3A332D);
+  static const gold = Color(0xFF8A6B3C);
+  static const goldLight = Color(0xFFC4A06A);
   static const cream = Color(0xFFFBFBF5);
   static const text = Color(0xFFF5F2EC);
   static const muted = Color(0xFF8A8278);
-  static const cardTop = Color(0xFF271F1A);
-  static const cardBottom = Color(0xFF1E1713);
-  static const cardBorder = Color(0xFF3A2E26);
+  static const cardTop = Color(0xFF30241B);
+  static const cardBottom = Color(0xFF2A1F17);
+  static const cardBorder = Color(0xFF45372B);
   static const star = Color(0xFFE2B15F);
+  static const noir = Color(0xFF9C8460);
+  static const noirSub = Color(0xFF8F8372);
+  static const iconTan = Color(0xFFC9B28F);
 }
 
 TextStyle serif(double size, {Color color = C.text, double height = 1.15}) =>
@@ -68,14 +75,14 @@ class Drink {
 const drinks = [
   Drink(
       'Smoked\nEspresso',
-      2.00,
+      3.00,
       4.6,
       'assets/images/espresso.jpg',
       'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900',
       'A bold double shot, slow-roasted over oak embers for a deep, smoky finish with a thick golden crema.'),
   Drink(
       'Charcoal\nMocha',
-      1.00,
+      2.00,
       4.5,
       'assets/images/mocha.jpg',
       'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=900',
@@ -91,10 +98,10 @@ const drinks = [
 
 const categories = ['Signature', 'Cold Brew', 'Slow Drip', 'Dark Roast'];
 const chipFills = [
-  Color(0xFF6E5640),
-  Color(0xFF382F28),
-  Color(0xFF352B22),
-  Color(0xFF31271E),
+  Color(0xFF6E5A47), // selected (Signature)
+  Color(0xFF3A322B),
+  Color(0xFF38342A),
+  Color(0xFF3A322B),
 ];
 const sizeExtra = {'S': 0.0, 'M': 0.5, 'L': 1.0};
 
@@ -154,7 +161,7 @@ class NoirApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: C.bg),
       builder: (context, child) {
         final mq = MediaQuery.of(context);
-        kS = (mq.size.width / 386).clamp(0.8, 1.4).toDouble();
+        kS = fitScale(mq.size);
         return MediaQuery(
           data: mq.copyWith(textScaler: TextScaler.noScaling),
           child: KeyedSubtree(key: ValueKey(kS), child: child!),
@@ -287,10 +294,10 @@ class GoldButton extends StatelessWidget {
           gradient: const LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: [Color(0xFF7C5A33), Color(0xFF9C7C49)],
+            colors: [Color(0xFF937653), Color(0xFF8A6B3C)],
           ),
           borderRadius: BorderRadius.circular(radius),
-          border: Border.all(color: const Color(0x55D9B87A)),
+          border: Border.all(color: const Color(0x44D9B87A)),
         ),
         child: Text(label,
             style: sans(fontSize, color: C.cream, weight: FontWeight.w500)),
@@ -315,48 +322,48 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pad = s(16);
+    final pad = s(18);
     return Scaffold(
       backgroundColor: C.bg,
       body: Stack(
         children: [
           Positioned(
             top: 0,
-            right: 0,
-            width: s(160),
-            height: s(214),
+            right: -s(8),
+            width: s(185),
+            height: s(247),
             child: IgnorePointer(
               child: Image.asset('assets/images/ring.jpg', fit: BoxFit.fill),
             ),
           ),
           SafeArea(
             child: ListView(
-              padding: EdgeInsets.only(top: s(12), bottom: s(24)),
+              physics: const ClampingScrollPhysics(),
+              padding: EdgeInsets.only(top: s(6), bottom: s(16)),
               children: [
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: pad),
                     child: _header()),
-                SizedBox(height: s(22)),
+                SizedBox(height: s(14)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: pad),
-                  child: Text('Select Your\nMidnight Brew',
-                      style: serif(33,
-                          color: const Color(0xFFFBFBF5), height: 1.15)),
+                  child: Text('Find Your\nDark Roast',
+                      style: serif(34, color: C.cream, height: 1.18)),
                 ),
-                SizedBox(height: s(16)),
+                SizedBox(height: s(14)),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: pad),
                     child: _searchRow()),
-                SizedBox(height: s(20)),
+                SizedBox(height: s(14)),
                 _drinkList(pad),
-                SizedBox(height: s(20)),
+                SizedBox(height: s(26)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: pad),
                   child: Text('Categories',
                       style: serif(22,
                           color: const Color(0xFFFEFEFD), height: 1.15)),
                 ),
-                SizedBox(height: s(10)),
+                SizedBox(height: s(12)),
                 _categoryChips(pad),
                 SizedBox(height: s(22)),
                 Padding(
@@ -383,14 +390,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.playfairDisplay(
                     fontSize: s(28),
                     letterSpacing: s(2),
-                    color: const Color(0xFF9C8460),
+                    color: C.noir,
                     height: 1.05)),
             SizedBox(height: s(1)),
             Text('COFFEE',
                 style: sans(10,
-                    color: const Color(0xFF8F8372),
-                    spacing: s(3.5),
-                    height: 1.0)),
+                    color: C.noirSub, spacing: s(3.5), height: 1.0)),
           ],
         ),
         const Spacer(),
@@ -402,23 +407,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _profileButton() => Container(
-        height: s(42),
-        padding: EdgeInsets.symmetric(horizontal: s(12)),
+        width: s(46),
+        height: s(46),
         decoration: BoxDecoration(
-          color: C.surfaceHi,
-          borderRadius: BorderRadius.circular(s(12)),
+          color: const Color(0xFF3A3532),
+          borderRadius: BorderRadius.circular(s(11)),
           border: Border.all(color: const Color(0xFF4A4644)),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.person_outline,
                 size: s(19), color: const Color(0xFFC7C0B4)),
-            SizedBox(width: s(6)),
+            SizedBox(height: s(1)),
             Text('Profile',
-                style: sans(12,
-                    color: const Color(0xFFC7C0B4),
-                    weight: FontWeight.w500)),
+                style: sans(10,
+                    color: const Color(0xFFC7C0B4), height: 1.1)),
           ],
         ),
       );
@@ -431,19 +435,19 @@ class _HomeScreenState extends State<HomeScreen> {
             clipBehavior: Clip.none,
             children: [
               Container(
-                width: s(42),
-                height: s(42),
+                width: s(46),
+                height: s(46),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF9C7945), Color(0xFF65492B)],
+                    colors: [Color(0xFF9E7F4F), Color(0xFF86673A)],
                   ),
-                  borderRadius: BorderRadius.circular(s(12)),
-                  border: Border.all(color: const Color(0x55D9B87A)),
+                  borderRadius: BorderRadius.circular(s(11)),
+                  border: Border.all(color: const Color(0x44D9B87A)),
                 ),
                 child: Icon(Icons.shopping_cart_outlined,
-                    size: s(22), color: const Color(0xFFECE4CF)),
+                    size: s(22), color: const Color(0xFFF1EADB)),
               ),
               if (cart.count > 0)
                 Positioned(
@@ -468,12 +472,12 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Expanded(
           child: Container(
-            height: s(42),
+            height: s(44),
             padding: EdgeInsets.symmetric(horizontal: s(12)),
             decoration: BoxDecoration(
               color: C.surface,
-              borderRadius: BorderRadius.circular(s(12)),
-              border: Border.all(color: C.border),
+              borderRadius: BorderRadius.circular(s(13)),
+              border: Border.all(color: const Color(0xFF383533)),
             ),
             child: Row(
               children: [
@@ -487,21 +491,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SizedBox(width: s(10)),
         Container(
-          width: s(42),
-          height: s(42),
+          width: s(44),
+          height: s(44),
           decoration: BoxDecoration(
-            color: C.surface,
-            borderRadius: BorderRadius.circular(s(12)),
-            border: Border.all(color: C.border),
+            color: C.filterFill,
+            borderRadius: BorderRadius.circular(s(13)),
+            border: Border.all(color: const Color(0xFF383533)),
           ),
           child: Center(
-            // Exact custom filter/tuning icon matching the reference mockup
             child: SizedBox(
-              width: s(16),
-              height: s(14),
-              child: CustomPaint(
-                painter: _CustomFilterPainter(),
-              ),
+              width: s(18),
+              height: s(15),
+              child: CustomPaint(painter: _CustomFilterPainter()),
             ),
           ),
         ),
@@ -512,12 +513,12 @@ class _HomeScreenState extends State<HomeScreen> {
   // ---------- drink cards ----------
   Widget _drinkList(double pad) {
     return SizedBox(
-      height: s(235), // Compact height removing extra empty space
+      height: s(222),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: pad),
         itemCount: drinks.length,
-        separatorBuilder: (_, __) => SizedBox(width: s(12)),
+        separatorBuilder: (_, __) => SizedBox(width: s(14)),
         itemBuilder: (_, i) => _drinkCard(drinks[i]),
       ),
     );
@@ -535,24 +536,24 @@ class _HomeScreenState extends State<HomeScreen> {
             end: Alignment.bottomCenter,
             colors: [C.cardTop, C.cardBottom],
           ),
-          borderRadius: BorderRadius.circular(s(16)),
+          borderRadius: BorderRadius.circular(s(18)),
           border: Border.all(color: C.cardBorder),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(s(16)),
+          borderRadius: BorderRadius.circular(s(18)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: s(120),
+                height: s(136),
                 width: double.infinity,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Hero(tag: 'drink-${d.name}', child: DrinkImage(drink: d)),
                     Positioned(
-                      top: s(6),
-                      right: s(6),
+                      top: s(7),
+                      right: s(7),
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             horizontal: s(5), vertical: s(2)),
@@ -578,7 +579,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(s(8), s(6), s(8), s(8)),
+                  padding: EdgeInsets.fromLTRB(s(10), s(8), s(10), s(10)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -587,10 +588,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         d.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: sans(14,
+                        style: sans(15,
                             color: const Color(0xFFFCFBF7),
                             weight: FontWeight.w500,
-                            height: 1.18),
+                            height: 1.2),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -621,13 +622,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color(0xFF9A7948),
-                                    Color(0xFF6E532F)
+                                    Color(0xFF9E7F4F),
+                                    Color(0xFF7A5E36)
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(s(7)),
                                 border:
-                                    Border.all(color: const Color(0x55D9B87A)),
+                                    Border.all(color: const Color(0x44D9B87A)),
                               ),
                               child: Icon(Icons.add,
                                   size: s(18), color: const Color(0xFFF3EDD8)),
@@ -649,7 +650,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ---------- category chips ----------
   Widget _categoryChips(double pad) {
     return SizedBox(
-      height: s(34),
+      height: s(32),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: pad),
@@ -660,19 +661,19 @@ class _HomeScreenState extends State<HomeScreen> {
           return GestureDetector(
             onTap: () => setState(() => selectedCategory = i),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: s(12)),
+              padding: EdgeInsets.symmetric(horizontal: s(13)),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: selected ? chipFills[0] : chipFills[i],
-                borderRadius: BorderRadius.circular(s(17)),
+                borderRadius: BorderRadius.circular(s(16)),
                 border: Border.all(
                     color: selected
                         ? const Color(0xFF8D7050)
                         : const Color(0xFF5C4C36)),
               ),
               child: Text(categories[i],
-                  style: sans(14,
-                      color: const Color(0xFFEAE5DB), height: 1.1)),
+                  style:
+                      sans(14, color: const Color(0xFFEAE5DB), height: 1.1)),
             ),
           );
         },
@@ -683,10 +684,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // ---------- Daily Ritual banner ----------
   Widget _dailyRitual() {
     return Container(
-      height: s(185),
+      height: s(212),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: const Color(0xFF14110E),
+        color: const Color(0xFF15110F),
         borderRadius: BorderRadius.circular(s(14)),
         border: Border.all(color: const Color(0xFF3A2F24)),
       ),
@@ -701,10 +702,9 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Daily Ritual',
-                    style: serif(26,
-                        color: const Color(0xFFFBFBF5), height: 1.2)),
+                    style: serif(26, color: C.cream, height: 1.2)),
                 SizedBox(height: s(6)),
-                Text('A velvety\nespresso over Ice',
+                Text('Craft of the Day\nespresso over ice',
                     style: serif(20,
                         color: const Color(0xFFF5F5F2), height: 1.18)),
               ],
@@ -712,10 +712,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             left: s(18),
-            bottom: s(22),
+            bottom: s(20),
             child: GoldButton(
               label: 'Order Now',
-              width: s(110),
+              width: s(112),
               height: s(34),
               radius: s(7),
               fontSize: 14 * kS,
@@ -731,26 +731,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Custom Painter to draw the exact 3-line slider/tuning icon from the design
+// Thin 3-line slider icon with ring knobs (matches the reference)
 class _CustomFilterPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFC9B28F)
-      ..strokeWidth = 2.0
+    const col = C.iconTan;
+    final line = Paint()
+      ..color = col
+      ..strokeWidth = 1.4
       ..strokeCap = StrokeCap.round;
+    final knobFill = Paint()..color = C.filterFill;
+    final knobRing = Paint()
+      ..color = col
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.4;
 
-    // Top horizontal bar with left knob
-    canvas.drawLine(Offset(0, size.height * 0.2), Offset(size.width, size.height * 0.2), paint);
-    canvas.drawCircle(Offset(size.width * 0.3, size.height * 0.2), 2.5, Paint()..color = const Color(0xFFC9B28F));
+    void row(double y, double kx) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), line);
+      canvas.drawCircle(Offset(kx, y), 2.4, knobFill);
+      canvas.drawCircle(Offset(kx, y), 2.4, knobRing);
+    }
 
-    // Middle horizontal bar with right knob
-    canvas.drawLine(Offset(0, size.height * 0.5), Offset(size.width, size.height * 0.5), paint);
-    canvas.drawCircle(Offset(size.width * 0.7, size.height * 0.5), 2.5, Paint()..color = const Color(0xFFC9B28F));
-
-    // Bottom horizontal bar with center knob
-    canvas.drawLine(Offset(0, size.height * 0.8), Offset(size.width, size.height * 0.8), paint);
-    canvas.drawCircle(Offset(size.width * 0.4, size.height * 0.8), 2.5, Paint()..color = const Color(0xFFC9B28F));
+    row(size.height * 0.2, size.width * 0.3);
+    row(size.height * 0.5, size.width * 0.7);
+    row(size.height * 0.8, size.width * 0.4);
   }
 
   @override
